@@ -14,9 +14,9 @@ TASKS + STATUS
 - After 5 seconds, take camera snapshot and save it in the testing_photo folder --- DONE
 
 
-- Create a function that extracts the image in the rectangle and saves it --------- TBD
+- Create a function that extracts the image in the rectangle and saves it --------- 
 --- (this image will be the user input that will be predicted by the CNN)
-- 
+- Make the camera in color and then convert to grayscale --------------------------DONE
 '''
 
 video = cv.VideoCapture(0)
@@ -27,10 +27,13 @@ if not video.isOpened():
 
 new_filename = (str) (random.random())[2:9] + '.png'
 
+
 def crop_image(img, filename):
     cropped = img[img.shape[1]//2 - 300:img.shape[0]//2 - 210, img.shape[1]//2 + 300:img.shape[0]//2 + 210]
-    cv.imwrite('processed_image/' + filename, )
+    cv.imwrite('processed_image/' + filename, cropped)
     return True
+
+
 start_time = datetime.now()
 print(f'Start time is: {start_time}.')
 
@@ -40,7 +43,7 @@ while True:
     cv.putText(rescaled_frame, f"Time left until picture taken: {10 - ((datetime.now() - start_time).seconds)}", (50,50), cv.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))
     cv.rectangle(rescaled_frame, (rescaled_frame.shape[1]//2 - 300, rescaled_frame.shape[0]//2 - 210), (rescaled_frame.shape[1]//2 + 300, rescaled_frame.shape[0]//2 + 210), (0,0,0), 3)
     gray_frame = cv.cvtColor(rescaled_frame, cv.COLOR_BGR2GRAY)
-    cv.imshow('Camera', gray_frame)
+    cv.imshow('Camera', rescaled_frame)
     
     # Press 'q' to exit at any moment
     if cv.waitKey(1) == ord('q'):
